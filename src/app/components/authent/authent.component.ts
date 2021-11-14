@@ -13,7 +13,7 @@ const routeAuthent = environment.urlServer + '/authenticate';
 @Component({
   selector: 'app-authent',
   templateUrl: './authent.component.html',
-  styleUrls: ['./authent.component.scss']
+  styleUrls: ['./authent.component.css']
 })
 export class AuthentComponent implements OnInit, OnDestroy {
 

@@ -8,11 +8,15 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class DialogModalComponent implements OnInit {
 
-@Input() title;
-@Input() message;
-  constructor(public activeModal: NgbActiveModal) { }
+@Input() title: string;
+@Input() message: string;
+  constructor(public activeModal: NgbActiveModal) {
+    this.title = '';
+    this.message = '';
+  }
 
   ngOnInit(): void {
+
   }
 
 }
