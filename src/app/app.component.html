@@ -1,0 +1,45 @@
+<div class="container">
+
+  <nav class="navbar navbar-light bg-light sticky-top d-flex justify-content-between">
+
+    <div class="d-flex justify-content-start">
+      <p class="navbar-brand d-none d-md-block">Site de l'ASC Squash</p>
+      <p routerLinkActive="active" *ngIf="currentUserType===0">
+        <a class="btn btn-toolbar btn-sm" (click)="routingTo('auth')">
+          <span [ngStyle]="authentLink === 1 ? {'font-weight' : 'bold'} : {'font-weight' : 'normal'}">Authentification</span>
+        </a>
+      </p>
+      <p routerLinkActive="active" *ngIf="currentUserType!==0">
+        <a class="btn btn-toolbar btn-sm mx-2" (click)="routingTo('profils')">
+          <span [ngStyle]="profilLink === 1 ? {'font-weight' : 'bold'} : {'font-weight' : 'normal'}">Profils Skype</span>
+        </a>
+      </p>
+      <p routerLinkActive="active" *ngIf="currentUserType===3">
+        <a class="btn btn-toolbar btn-sm mx-2" (click)="routingTo('users')">
+          <span [ngStyle]="userLink === 1 ? {'font-weight' : 'bold'} : {'font-weight' : 'normal'}">Utilisateurs</span>
+        </a>
+      </p>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <p routerLinkActive="active" *ngIf="currentUserType!==0">
+        <a class="btn btn-toolbar btn-sm mx-2" (click)="routingTo('account')">
+          <fa-icon [icon]="faUser"></fa-icon></a>
+      </p>
+      <p routerLinkActive="active" *ngIf="currentUserType!==0">
+        <a class="btn btn-toolbar btn-sm mx-2" (click)="OnDisconnect()">
+          <fa-icon [icon]="faSignOutAlt"></fa-icon></a>
+      </p>
+    </div>
+
+  </nav>
+
+
+  <router-outlet></router-outlet>
+
+</div>
+
+
+
+
+
