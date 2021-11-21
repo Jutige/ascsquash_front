@@ -10,11 +10,11 @@
         </a>
       </p>
       <p routerLinkActive="active" *ngIf="currentUserType!==0">
-        <a class="btn btn-toolbar btn-sm mx-2" (click)="routingTo('profils')">
-          <span [ngStyle]="profilLink === 1 ? {'font-weight' : 'bold'} : {'font-weight' : 'normal'}">Profils Skype</span>
+        <a class="btn btn-toolbar btn-sm mx-2" (click)="routingTo('infos')">
+          <span [ngStyle]="infoLink === 1 ? {'font-weight' : 'bold'} : {'font-weight' : 'normal'}">Informations</span>
         </a>
       </p>
-      <p routerLinkActive="active" *ngIf="currentUserType===3">
+      <p routerLinkActive="active" *ngIf="currentUserType===2">
         <a class="btn btn-toolbar btn-sm mx-2" (click)="routingTo('users')">
           <span [ngStyle]="userLink === 1 ? {'font-weight' : 'bold'} : {'font-weight' : 'normal'}">Utilisateurs</span>
         </a>

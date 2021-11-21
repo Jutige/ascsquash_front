@@ -1,0 +1,104 @@
+<form [formGroup]="formAccount">
+    <div class="container">
+        <p><br/><strong>Détail du compte utilisateur</strong></p>
+
+        <div class="my-2 formGroup row">
+            <label class="col-6 col-sm-3" for="userId">Id ASC :</label>
+            <div class="col-6 col-sm-4">
+                <input type="text" id="userId" class="form-control" formControlName="userId">
+    <!--                <label id="idAsc" >{{this.idAsc}}</label>-->
+            </div>
+        </div>
+        <div class="my-2 formGroup row">
+            <label class="col-6 col-sm-3" for="nomJoueur">Nom :</label>
+            <div class="col-6 col-sm-4">
+                <input type="text" id="nomJoueur" class="form-control" formControlName="nomJoueur" >
+         <!--           <label id="lastName" >{{this.lastName}}</label>-->
+            </div>
+        </div>
+        <div class="my-2 formGroup row">
+            <label class="col-6 col-sm-3" for="prenomJoueur">Prénom :</label>
+            <div class="col-6 col-sm-4">
+                <input type="text" id="prenomJoueur" class="form-control" formControlName="prenomJoueur">
+         <!--           <label id="firstName" >{{this.firstName}}</label>-->
+            </div>
+        </div>
+        <div class="my-2 formGroup row">
+          <label class="col-6 col-sm-3" for="mailJoueur">Adresse email :</label>
+          <div class="col-6 col-sm-4">
+            <input type="text" id="mailJoueur" class="form-control" formControlName="mailJoueur">
+          </div>
+        </div>
+        <div class="my-2 formGroup row">
+          <label class="col-6 col-sm-3" for="telJoueur">N° tel :</label>
+          <div class="col-6 col-sm-4">
+            <input type="text" id="telJoueur" class="form-control" formControlName="telJoueur">
+          </div>
+        </div>
+      <!--       <div class="my-2 formGroup row">
+                 <label class="col-6 col-sm-3" for="userRoles">Roles :</label>
+                 <div class="col-6 col-sm-4">
+                     <input type="text" id="userRoles" class="form-control" formControlName="userRoles" disabled>
+                    <label id="userRoles" >{{this.userRolesForShow}}</label>
+            </div>
+        </div>      -->
+
+        <br/>
+        <div *ngIf="updateAvailable">
+            <div class="formGroup row">
+                <label class="col-6 col-sm-3" for="actualPassword">Mot de passe :</label>
+                <div class="col-6 col-sm-4">
+                    <input type="password" id="actualPassword" class="form-control" formControlName="actualPassword" >
+                </div>
+            </div>
+            <div *ngIf="formAccount.controls['actualPassword'].hasError('required')">
+                <label class="text-danger">doit être renseigné</label>
+            </div>
+            <div class="formGroup row">
+                <label class="col-6 col-sm-3" for="newPassword">Nouveau mot de passe :</label>
+                <div class="col-6 col-sm-4">
+                    <input type="password" id="newPassword" class="form-control" formControlName="newPassword" >
+                </div>
+            </div>
+            <div *ngIf="formAccount.controls['newPassword'].hasError('isContainsNumber')">
+                <label class="text-danger">doit contenir un caractère numérique</label>
+            </div>
+            <div *ngIf="formAccount.controls['newPassword'].hasError('required') ||
+                formAccount.controls['newPassword'].hasError('minlength') ||
+                formAccount.controls['newPassword'].hasError('maxlength')">
+                <label class="text-danger">doit être compris entre 8 et 12 caractères</label>
+            </div>
+            <div *ngIf="formAccount.controls['newPassword'].hasError('isContainsSpecialCharacter')">
+                <label class="text-danger">doit contenir un caractère spécial</label>
+            </div>
+            <div *ngIf="formAccount.controls['newPassword'].hasError('isContainsUpperCase')">
+                <label class="text-danger">doit contenir une lettre majuscule</label>
+            </div>
+            <div *ngIf="formAccount.controls['newPassword'].hasError('isContainsLowerCase')">
+                <label class="text-danger">doit contenir une lettre minuscule</label>
+            </div>
+            <div class="formGroup row">
+                <label class="col-6 col-sm-3" for="newPasswordConfirmed">Confirmation mot de passe :</label>
+                <div class="col-6 col-sm-4">
+                    <input type="password" id="newPasswordConfirmed" class="form-control" formControlName="newPasswordConfirmed" >
+                </div>
+            </div>
+            <div *ngIf="formAccount.controls['newPasswordConfirmed'].hasError('mustMatch')">
+                <label class="text-danger">les mots de passe doivent être identiques</label>
+            </div>
+        </div>
+        <br/>
+        <div *ngIf="!updateAvailable" class="col-md-6 text-center">
+            <button class="btn btn-success mr-3" (click)="activeChangePassword()">Changer mot de passe</button>
+            <button class="btn btn-danger" [routerLink]="['/users']">Retour</button>
+        </div>
+        <div *ngIf="updateAvailable" class="col-md-6 text-center">
+            <button class="btn btn-success mr-3" [disabled]="formAccount.invalid" (click)="updatePassword()">Valider</button>
+            <button class="btn btn-danger" (click)="desactiveChangePassword()">Annuler</button>
+        </div>
+        <br/>
+        <div class="col-md-6">
+            <ngb-alert *ngIf="availableMessage" [type]="type" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
+        </div>
+    </div>
+</form>

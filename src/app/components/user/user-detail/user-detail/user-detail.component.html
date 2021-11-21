@@ -1,0 +1,87 @@
+<form [formGroup]="userForm">
+  <div class="container">
+    <p><br/><strong>Détail de l'utilisateur</strong></p>
+
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="collaboraterId">Id ASC :</label>
+      <div class="col-6 col-sm-4">
+        <!--            <input type="text" id="collaboraterId" class="form-control" formControlName="collaboraterId" disabled>-->
+        <label id="collaboraterId" >{{userResult.idAsc}}</label>
+      </div>
+
+    </div>
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="lastName">Nom :</label>
+      <div class="col-6 col-sm-4">
+        <!--                <input type="text" id="lastName" class="form-control" formControlName="lastName" disabled>-->
+        <label id="lastName" >{{userResult.nomJoueur}}</label>
+      </div>
+    </div>
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="firstName">Prénom :</label>
+      <div class="col-6 col-sm-4">
+        <!--                <input type="text" id="firstName" class="form-control" formControlName="firstName" disabled>-->
+        <label id="firstName" >{{userResult.prenomJoueur}}</label>
+      </div>
+    </div>
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="phoneNumber">Numéro Tel :</label>
+      <div class="col-6 col-sm-4">
+        <label id="phoneNumber" >{{userResult.numeroTelJoueur}}</label>
+        <!--                <input type="tel" id="deskPhoneNumber" class="form-control" formControlName="deskPhoneNumber" disabled>-->
+   <!--     <a [href]="linkPhoneDesk" target="_blank">{{userResult.deskPhoneNumber}}</a>-->
+      </div>
+    </div>
+
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="mailAdress">Adresse Mail :</label>
+      <div class="col-6 col-sm-4">
+        <label id="mailAdress">
+        <!--                <input type="email" id="mailAdress" class="form-control" formControlName="mailAdress" disabled>-->
+        <a [href]="linkMail" target="_blank">{{userResult.mailJoueur}}</a></label>
+      </div>
+    </div>
+
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="roleUser">Role :</label>
+      <div class="col-6 col-sm-4">
+        <label id="roleUser">
+          <!--                <input type="email" id="mailAdress" class="form-control" formControlName="mailAdress" disabled>-->
+          {{this.role}}</label>
+      </div>
+    </div>
+
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="connexionDate">Date de dernière connexion :</label>
+      <div class="col-6 col-sm-4">
+        <label id="connexionDate">
+          <!--                <input type="email" id="mailAdress" class="form-control" formControlName="mailAdress" disabled>-->
+          {{dateLastConnexion| date: 'short'}}</label>
+      </div>
+    </div>
+<!--
+    <div class="formGroup row my-2">
+      <label class="col-6 col-sm-2" for="userRolesForm">Roles :</label>
+      <div class="col-6 col-sm-4">
+        <div class="form-check" *ngFor="let item of userRolesForm">
+          <input  type="checkbox" id={{item.name}} [value]="item.value" [checked]="item.checked"
+                  (change)="onCheckRoleChange($event)" class="form-check-input">
+          <label class="form-check-label">{{item.value}}</label>
+        </div>
+      </div>
+    </div>-->
+    <br/>
+    <footer class="text-center d-flex justify-content-start custom-foot" >
+      <a routerLink="/users">
+        <button class="ml-d4 ml-sm-0 btn btn-secondary">Retour</button>
+      </a>
+      <button *ngIf="currentUserType===2" class="btn btn-success mx-2 mx-sm-3" (click)="updateUser()">Mettre à jour</button>
+      <button *ngIf="currentUserType===2" class="btn btn-danger" (click)="deleteUser()">Supprimer</button>
+
+    </footer>
+    <br/>
+    <div class="col-md-6">
+      <ngb-alert *ngIf="availableMessage" [type]="typeMessage" [dismissible]="true" (close)="availableMessage=false">{{ successMessage }}</ngb-alert>
+    </div>
+  </div>
+</form>

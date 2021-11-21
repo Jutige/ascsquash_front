@@ -12,16 +12,35 @@ import {DialogModalComponent} from "./components/share/dialog-modal/dialog-modal
 import {AuthentComponent} from "./components/authent/authent.component";
 import {HttpClientModule} from "@angular/common/http";
 import {RouterModule, Routes} from "@angular/router";
+import {UserAccountComponent} from "./components/user/user-account/user-account.component";
+import {UserListComponent} from "./components/user/user-list/user-list.component";
+import {UserListItemComponent} from "./components/user/user-list-item/user-list-item.component";
+import { InfoListComponent } from './components/info/info-list/info-list/info-list.component';
+import { InfoListItemComponent } from './components/info/info-list-item/info-list-item/info-list-item.component';
+import {InfoServiceService} from "./services/info-service.service";
+import { UserDetailComponent } from './components/user/user-detail/user-detail/user-detail.component';
+import { UserCreateComponent } from './components/user/user-create/user-create/user-create.component';
 
 const appRoutes: Routes = [
-  {path: 'auth', component:AuthentComponent}
+  {path: 'auth', component: AuthentComponent},
+  {path: 'infos', component: InfoListComponent},
+  {path: 'users', component: UserListComponent},
+  {path: 'users/:idUser', component: UserDetailComponent},
+  {path: 'account', component: UserAccountComponent}
   ];
 
 @NgModule({
   declarations: [
     AppComponent,
     DialogModalComponent,
-    AuthentComponent
+    AuthentComponent,
+    UserAccountComponent,
+    UserListComponent,
+    UserListItemComponent,
+    InfoListComponent,
+    InfoListItemComponent,
+    UserDetailComponent,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +52,9 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     FontAwesomeModule
   ],
-  providers: [AuthentGuardService,UserService
+  providers: [AuthentGuardService,UserService,
+              UserService,
+    InfoServiceService
   ],
   bootstrap: [AppComponent]
 })

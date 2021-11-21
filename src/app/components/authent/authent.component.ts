@@ -127,14 +127,14 @@ export class AuthentComponent implements OnInit, OnDestroy {
    */
   getUser(userId: string) {
     console.log ('Auth - getUser');
-    this.userService.getGetSubject().subscribe(
+    this.userService.getUserGetInitSubject().subscribe(
       (response: any) => {
 
         console.log ('Auth - Get Réponse', response.body);
         this.userResult = response.body;
         this.updateUserRole(this.userResult.roles);
         this.updateLocalStorage();
-//          this.router.navigate(['/profils']);
+  //        this.router.navigate(['/users']);
         // console.log('response authent :', response);
         // console.log('valeur http status', response.status);
       },
@@ -143,7 +143,7 @@ export class AuthentComponent implements OnInit, OnDestroy {
         console.log('Auth - error Get', error);
       }
     );
-    this.userService.GetUserFromServerById(userId);
+    this.userService.GetUserFromServerById(userId, 1);
   }
 
   /**
@@ -155,11 +155,15 @@ export class AuthentComponent implements OnInit, OnDestroy {
       localStorage.setItem('userId', '000000');
       localStorage.setItem('nomUser', 'Nom inconnu');
       localStorage.setItem('prenomUser', 'Prenom inconnu');
+      localStorage.setItem('mailUser', 'Mail inconnu');
+      localStorage.setItem('telUser', 'Tel inconnu');
       localStorage.setItem('RolesUser', '');
     } else {
-      localStorage.setItem('userId', this.userResult.mailJoueur);
+      localStorage.setItem('userId', this.userResult.idAsc);
       localStorage.setItem('nomUser', this.userResult.nomJoueur);
       localStorage.setItem('prenomUser', this.userResult.prenomJoueur);
+      localStorage.setItem('mailUser', this.userResult.mailJoueur);
+      localStorage.setItem('telUser', this.userResult.numeroTelJoueur);
       // console.log('user Result', this.userResult);
       if (this.userResult !== null || this.userResult !== undefined) {
         this.roles = this.userService.getRole(this.userResult).roles.toString();

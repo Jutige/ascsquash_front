@@ -21,7 +21,7 @@ export class AppComponent  implements OnInit{
   faSignOutAlt = faSignOutAlt;
   faUser = faUser;
   userLink = 0;
-  profilLink = 0;
+  infoLink = 0;
   authentLink = 0;
   // options pour la fenêtre modale
   modalOptions: NgbModalOptions = {};
@@ -41,7 +41,7 @@ export class AppComponent  implements OnInit{
         console.log('user reçu: ', user);
         this.currentUserType = user;
         if (this.currentUserType > 0) {
-          this.routingTo('profils');
+          this.routingTo('infos');
         }
         if (this.currentUserType === 0){
           this.routingTo('auth');
@@ -53,7 +53,7 @@ export class AppComponent  implements OnInit{
       this.routingTo('auth');
     } else {
       if (this.currentUserType > 0) {
-        this.routingTo('profils');
+        this.routingTo('infos');
       }
     }
   }
@@ -65,13 +65,13 @@ export class AppComponent  implements OnInit{
   routingTo(route:string) {
     this.authentLink = 0;
     this.userLink = 0;
-    this.profilLink = 0;
+    this.infoLink = 0;
     switch (route) {
       case 'auth':
         this.authentLink = 1;
         break;
-      case 'profils':
-        this.profilLink = 1;
+      case 'infos':
+        this.infoLink = 1;
         break;
       case 'users':
         this.userLink = 1;

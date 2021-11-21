@@ -4,17 +4,19 @@ export class UserResult extends Joueur {
   roles: string[];
   lastDateConnexion: string;
   constructor(
+     idAsc: string,
      nomJoueur: string,
      prenomJoueur: string,
      mailJoueur: string,
-     telJoueur: string,
+     numeroTelJoueur: string,
      roles: string[],
      lastDateConnexion: string
   ) {
-    super(nomJoueur,
+    super(idAsc,
+      nomJoueur,
       prenomJoueur,
       mailJoueur,
-      telJoueur);
+      numeroTelJoueur);
     this.roles = roles;
     this.lastDateConnexion = lastDateConnexion;
   }
