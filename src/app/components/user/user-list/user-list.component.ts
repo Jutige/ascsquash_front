@@ -19,6 +19,7 @@ import {userMsg} from "../../../models/user-msg";
  */
 export class UserListComponent implements OnInit, OnDestroy {
 
+    page: number;
     currentUserType: any;
     userListResult: UserResult[];
     private userSubscription: Subscription;
@@ -42,10 +43,11 @@ export class UserListComponent implements OnInit, OnDestroy {
      * Récupération à l'initialisation de la liste des utilisateurs et du rôle courant
      */
   ngOnInit(): void {
-      this.userListResult = this.userService.getUsers();
+//      this.userListResult = this.userService.getUsers();
+      this.page = 1;
+      this.userListResult = [];
       this.currentUserType = this.userService.getCurrentRole();
-      console.log('users en cours', this.userService.getUsers());
-      if (this.userListResult === null) {
+ //     if (this.userListResult === null) {
           this.userService.getUsersFromServer();
           this.userSubscription = this.userService.getusersSubject().subscribe(
               (users: UserResult[]) => {
@@ -53,9 +55,9 @@ export class UserListComponent implements OnInit, OnDestroy {
                   console.log(this.userListResult);
               }
           );
-      } else {
+ //     } else {
           console.log('liste en cours', this.userService.getUsers());
-      }
+  //    }
       this.errorGetSubscription = this.technicalService.getErrorSubject.subscribe(
             (response: any) => {
                 this.emitAlertAndRouting('Impossible de récupérer la liste des utilisateurs, code erreur : ', response);

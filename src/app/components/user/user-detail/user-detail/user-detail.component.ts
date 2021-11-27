@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {UserService} from "../../../../services/user-service";
 import {userMsg} from "../../../../models/user-msg";
@@ -14,7 +14,7 @@ import {DialogModalComponent} from "../../../share/dialog-modal/dialog-modal.com
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.scss']
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent implements OnInit, OnDestroy {
 
   // idUser = idAsc en entrée
   idUser: string = '';
@@ -37,6 +37,7 @@ export class UserDetailComponent implements OnInit {
 
   private successSubscription: Subscription;
   private userDeleteSubscription: Subscription;
+  private paramRouteMapSubscription: Subscription;
 
   // options pour la fenêtre modale
   modalOptions: NgbModalOptions = {};
@@ -47,11 +48,18 @@ export class UserDetailComponent implements OnInit {
               private modalService: NgbModal,
               private router: Router) { }
 
+  ngOnDestroy() {
+
+    if (this.paramRouteMapSubscription){
+      this.paramRouteMapSubscription.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
 
     this.currentUserType = this.userService.getCurrentRole();
     //   récupération de l'id sélectionnée
-    this.routeUser.paramMap.subscribe((params: ParamMap) => {
+    this.paramRouteMapSubscription = this.routeUser.paramMap.subscribe((params: ParamMap) => {
         this.idUser = this.idUser +params.get('idUser');
         console.log('idUser : ', this.idUser);
       }
@@ -86,7 +94,8 @@ export class UserDetailComponent implements OnInit {
     this.userDeleteSubscription = this.userService.userDeleteSubject.subscribe(
       (response: any) => {
         // update server done : display confirm box then routing
-        this.emitAlertAndRouting('Suppression effectuée', response);
+        console.log("Suppression réalisée");
+        this.emitAlertAndRouting('Suppression effectuée', new userMsg(true, 'Suppression effectuée'));
       }
     );
 
@@ -105,11 +114,14 @@ export class UserDetailComponent implements OnInit {
   }
   updateUser() {
     console.log('clic sur update');
+    this.router.navigate(['/users/modify/'+this.idUser]);
   }
 
 
   emitAlertAndRouting(message: string, response: userMsg) {
 
+    console.log('userMsg ' + response);
+    console.log('response.success ' + response.success);
     if (response.success) {
       this.successMessage = message;
       this.typeMessage = 'success';

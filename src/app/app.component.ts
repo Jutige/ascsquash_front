@@ -7,6 +7,7 @@ import {NgbModal, NgbModalOptions, NgbModalRef} from '@ng-bootstrap/ng-bootstrap
 import { faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons';
 import {UserService} from "./services/user-service";
 import {DialogModalComponent} from "./components/share/dialog-modal/dialog-modal.component";
+import {UserResult} from "./models/user-result.model";
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,8 @@ import {DialogModalComponent} from "./components/share/dialog-modal/dialog-modal
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent  implements OnInit{
+
+  userResult: UserResult;
   currentUserType = 0;
   userSuscribe = new Subscription();
   faSignOutAlt = faSignOutAlt;
@@ -34,8 +37,55 @@ export class AppComponent  implements OnInit{
   ) { }
 
   ngOnInit(): void {
-    this.currentUserType = this.userService.getCurrentRole();
-    console.log('valeur init, currentUserType: ', this.currentUserType);
+    this.verifyRefresh();
+    console.log('CurrentType après verifyRefresh : ' + this.currentUserType);
+  }
+
+  /**
+   * method for routing to other component and actualize the conditionnal items of the navbar
+   * @param route
+   */
+  verifyRefresh(){
+    let userId = localStorage.getItem('userId');
+    let token = localStorage.getItem('token');
+    if (userId && token){
+      console.log('already connected');
+      console.log('userId ' + userId);
+      console.log('token ' + token);
+      this.getUser(userId);
+
+    }else {
+      console.log('new connection');
+      console.log('valeur init, currentUserType: ', this.currentUserType);
+      this.currentUserType = this.userService.getCurrentRole();
+      this.chooseRoute();
+    }
+  }
+
+  getUser(userId: string) {
+    console.log ('AppComponent - getUser');
+    this.userService.getUserGetRefreshSubject().subscribe(
+      (response: any) => {
+
+        console.log ('AppComponent - Get Réponse', response.body);
+        this.userResult = response.body;
+        this.updateUserRole(this.userResult.roles);
+        this.currentUserType = this.userService.getCurrentRole();
+        this.chooseRoute();
+
+        //        this.router.navigate(['/users']);
+        // console.log('response authent :', response);
+        // console.log('valeur http status', response.status);
+      },
+      (error: any) => {
+        console.log('AppComponent - error Get', error);
+      }
+    );
+    this.userService.GetUserFromServerById(userId, 0);
+  }
+
+  chooseRoute(){
+
     this.userSuscribe = this.userService.userSubject.subscribe(
       user => {
         console.log('user reçu: ', user);
@@ -58,10 +108,18 @@ export class AppComponent  implements OnInit{
     }
   }
 
-  /**
-   * method for routing to other component and actualize the conditionnal items of the navbar
-   * @param route
-   */
+  updateUserRole(roles: string[]) {
+    console.log ('Auth - updateUserRole', roles);
+    if ((roles.indexOf('ROLE_USER') > -1) || (roles.indexOf('Utilisateur') > -1)) {
+      this.currentUserType = 1;
+    }
+    if ((roles.indexOf('ROLE_ADMIN') > -1) || (roles.indexOf('Administrateur') > -1)) {
+      this.currentUserType = 2;
+    }
+    console.log('AppComponent - updateUserRole, role: ', this.currentUserType);
+    this.userService.updateRole(this.currentUserType);
+  }
+
   routingTo(route:string) {
     this.authentLink = 0;
     this.userLink = 0;

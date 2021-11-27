@@ -1,23 +1,16 @@
 import {Joueur} from "./joueur.model";
 
-export class UserCreate extends Joueur {
-  roles: string[],
-  idUser: string
+export class UserCreate  {
+
   constructor(
-    idAsc: string,
-    nomJoueur: string,
-    prenomJoueur: string,
-    mailJoueur: string,
-    numeroTelJoueur: string,
-    idUser: string,
-    roles: string[]
+    public idAsc: string,
+    public nomJoueur: string,
+    public prenomJoueur: string,
+    public mailJoueur: string,
+    public numeroTelJoueur: string,
+    public idUser: string,
+    public roles: string[]
   ) {
-    super(idAsc,
-      nomJoueur,
-      prenomJoueur,
-      mailJoueur,
-      numeroTelJoueur);
-    this.idUser = idUser;
-    this.roles = roles;
+
   }
 }

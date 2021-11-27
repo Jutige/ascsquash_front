@@ -20,12 +20,15 @@ import { InfoListItemComponent } from './components/info/info-list-item/info-lis
 import {InfoServiceService} from "./services/info-service.service";
 import { UserDetailComponent } from './components/user/user-detail/user-detail/user-detail.component';
 import { UserCreateComponent } from './components/user/user-create/user-create/user-create.component';
+import { UserModifyComponent } from './components/user/user-modify/user-modify/user-modify.component';
 
 const appRoutes: Routes = [
   {path: 'auth', component: AuthentComponent},
   {path: 'infos', component: InfoListComponent},
   {path: 'users', component: UserListComponent},
   {path: 'users/:idUser', component: UserDetailComponent},
+  {path: 'users/create/createUser', component: UserCreateComponent},
+  {path: 'users/modify/:idUser', component: UserModifyComponent},
   {path: 'account', component: UserAccountComponent}
   ];
 
@@ -40,7 +43,8 @@ const appRoutes: Routes = [
     InfoListComponent,
     InfoListItemComponent,
     UserDetailComponent,
-    UserCreateComponent
+    UserCreateComponent,
+    UserModifyComponent
   ],
   imports: [
     BrowserModule,

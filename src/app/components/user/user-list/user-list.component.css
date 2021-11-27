@@ -1,6 +1,14 @@
 .custom-scroll {
     display: none;
 }
+
+footer {
+  position: fixed;
+  width: inherit;
+  bottom: 0;
+  background-color: #F8F9FA;
+  z-index: 1;
+}
 @media all and (max-width:575px)
 {
   .custom-foot {
@@ -11,5 +19,5 @@
     padding-top: 10px;
     padding-bottom: 20px;
     width: 100%;
-  } 
+  }
 }

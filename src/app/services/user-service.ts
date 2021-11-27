@@ -4,12 +4,14 @@ import {UserResult} from "../models/user-result.model";
 import {environment} from "../../environments/environment";
 import {Subject} from "rxjs";
 import {userMsg} from "../models/user-msg";
+import {UserCreate} from "../models/user-create.model";
 
 enum userType {
   userUnkown = 0,
   userNormal,
   userAdmin
 }
+const urlUserCreate = environment.urlServer + '/v1/user/create';
 const urlUserGetList = environment.urlServer + '/v1/user/list';
 const urlUserGet = environment.urlServer + '/v1/user/get/';
 const urlUserDelete = environment.urlServer + '/v1/user/delete/';
@@ -22,11 +24,14 @@ export class UserService {
   private userAuth: userType;
   private tokenId: string;
   private userGetSubjectInit = new Subject();
+  private userGetSubjectRefresh = new Subject();
   private userGetSubjectDetail = new Subject();
   private usersSubject = new Subject<UserResult[]>();
   public userSubject = new Subject<userType>();
   private userUpdatePasswordSubject = new Subject();
   public userDeleteSubject = new Subject();
+  public userCreateSubject = new Subject();
+  public userGetSubjectModify = new Subject();
 
   private users: UserResult[] = null;
 
@@ -45,6 +50,10 @@ export class UserService {
       {observe : 'response', headers: new HttpHeaders().set('Authorization', this.tokenId), withCredentials: true})
       .subscribe(
         (response : HttpResponse<UserResult>) => {
+          //appel après refresh
+          if (caller == 0){
+            this.userGetSubjectRefresh.next(response);
+          }
           //appel après authentification
           if (caller == 1){
             this.userGetSubjectInit.next(response);
@@ -52,6 +61,10 @@ export class UserService {
           //appel dans le détail utilisateur
           if (caller == 2){
             this.userGetSubjectDetail.next(response);
+          }
+          //appel dans l'écran modification user
+          if (caller == 3){
+            this.userGetSubjectModify.next(response);
           }
 
           console.log('user.service - GetUserFromServerById -> response', response);
@@ -104,6 +117,27 @@ export class UserService {
       );
   }
 
+  createUser(userCreate: UserCreate){
+    this.tokenId = 'Bearer ' + localStorage.getItem('token');
+    this.httpClient.post(urlUserCreate, userCreate,
+      {headers: new HttpHeaders().set('Authorization', this.tokenId), withCredentials: true})
+      .subscribe(
+        (response: any) => {
+          console.log('Maj back-end Ok');
+          console.log(response);
+          this.userCreateSubject.next(new userMsg(true, null));
+        },
+        (error: HttpErrorResponse) => {
+          console.log('Maj back-end Ko' + error );
+          if (error.status === 200 || error.status === 201) {
+            this.userCreateSubject.next(new userMsg(true, null));
+          } else {
+            const msg = this.errorHandler(error);
+            this.userCreateSubject.next(new userMsg(false, msg));
+          }
+        }
+      );
+  }
   updatePasswordToServer(userId: string, oldPassword: string, newPassword: string){
 /*    this.tokenId = 'Bearer ' + localStorage.getItem('token');
     this.httpClient.put(urlUserUppassword + userId + '/' + oldPassword + '/' + newPassword, null,
@@ -123,6 +157,10 @@ export class UserService {
     for (let userList of this.users) {
       this.getRole(userList);
     }
+  }
+
+  getUserGetRefreshSubject(){
+    return this.userGetSubjectRefresh;
   }
 
   getUserGetInitSubject(){

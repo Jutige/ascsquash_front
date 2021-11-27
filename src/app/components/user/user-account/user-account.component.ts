@@ -81,7 +81,7 @@ export class UserAccountComponent implements OnInit, OnDestroy {
         prenomJoueur: new FormControl (this.prenomJoueur, Validators.required),
         nomJoueur: new FormControl (this.nomJoueur, Validators.required),
         mailJoueur: new FormControl (this.mailJoueur, Validators.required),
-        telJoueur: new FormControl (this.telJoueur, Validators.required),
+        telJoueur: new FormControl (this.telJoueur),
         /*
         prenomJoueur: [{value: this.prenomJoueur}, Validators.required],
         nomJoueur: [{value: this.nomJoueur}, Validators.required],

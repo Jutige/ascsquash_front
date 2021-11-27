@@ -11,7 +11,8 @@
                         <th class="col-3">Autorisation</th>
                     </tr>
                 </thead>
-                <app-user-list-item *ngFor="let item of userListResult, let index = index"
+                <app-user-list-item *ngFor="let item of userListResult | paginate: {itemsPerPage: 10, currentPage: page },
+                                    let index = index"
                                     [user]="item" [idUser]="item.idAsc">
                 </app-user-list-item>
             </table>
@@ -21,10 +22,16 @@
         <ngb-alert *ngIf="availableMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
     </div>
     <br class="custom-scroll"/><br class="custom-scroll"/>
+    <a routerLink="create/createUser">
+      <button class="btn btn-success" *ngIf="currentUserType==2 || currentUserType==3">Créer</button>
+    </a>
     <footer class="col-md-2 text-center d-flex justify-content-between custom-foot">
-        <a routerLink="create">
-        <button class="btn btn-success" *ngIf="currentUserType==2 || currentUserType==3">Créer</button>
-        </a>
+
+      <pagination-controls  style="background-color: #F8F9FA;
+                                            margin-left: -45px;
+                                            padding-top: 10px;"
+                            class="d-flex justify-content-center"
+                            (pageChange)="page = $event"></pagination-controls>
     </footer>
 
 </div>
