@@ -5,6 +5,7 @@ import {UserService} from "../../../../services/user-service";
 import {userMsg} from "../../../../models/user-msg";
 import {UserResult} from "../../../../models/user-result.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {UserCreate} from "../../../../models/user-create.model";
 
 @Component({
   selector: 'app-user-modify',
@@ -16,6 +17,7 @@ export class UserModifyComponent implements OnInit {
   // idUser = idAsc en entrée
   idUser: string = '';
   private getUserSubscription: Subscription;
+  private  userUpdateSouscription: Subscription;
 
   // user associé à l'index
   userResult: UserResult;
@@ -96,6 +98,26 @@ export class UserModifyComponent implements OnInit {
   modifyUser() {
 
     console.log('Modification demandée');
+    this.userUpdateSouscription = this.userService.userUpdateSubject.subscribe(
+      (response: any) => {
+        this.emitAlertAndRouting('mise à jour effectuée', new userMsg(true, 'Création effectuée'));
+        console.log('response ' + response);
+      },
+      (error) => {
+        console.log('erreur appel updateUser ' + error);
+      }
+    );
+    let roleUserUpdate = [];
+    roleUserUpdate.push(this.formModify.get('role').value);
+    let userUpdate = new UserCreate(this.idUser,
+      this.formModify.get('nomJoueur').value,
+      this.formModify.get('prenomJoueur').value,
+      this.formModify.get('mailJoueur').value,
+      this.formModify.get('telJoueur').value,
+      this.idUser,
+      roleUserUpdate
+    );
+    this.userService.updateUser(userUpdate);
   }
 
   verifyChange($event: Event) {

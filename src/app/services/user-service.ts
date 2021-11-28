@@ -14,6 +14,7 @@ enum userType {
 const urlUserCreate = environment.urlServer + '/v1/user/create';
 const urlUserGetList = environment.urlServer + '/v1/user/list';
 const urlUserGet = environment.urlServer + '/v1/user/get/';
+const urlUserUpdate = environment.urlServer + '/v1/user/update'
 const urlUserDelete = environment.urlServer + '/v1/user/delete/';
 
 @Injectable({
@@ -32,6 +33,7 @@ export class UserService {
   public userDeleteSubject = new Subject();
   public userCreateSubject = new Subject();
   public userGetSubjectModify = new Subject();
+  public userUpdateSubject = new Subject();
 
   private users: UserResult[] = null;
 
@@ -138,6 +140,29 @@ export class UserService {
         }
       );
   }
+
+  updateUser(userCreate: UserCreate){
+    this.tokenId = 'Bearer ' + localStorage.getItem('token');
+    this.httpClient.post(urlUserUpdate, userCreate,
+      {headers: new HttpHeaders().set('Authorization', this.tokenId), withCredentials: true})
+      .subscribe(
+        (response: any) => {
+          console.log('Maj back-end Ok');
+          console.log(response);
+          this.userUpdateSubject.next(new userMsg(true, null));
+        },
+        (error: HttpErrorResponse) => {
+          console.log('Maj back-end Ko' + error );
+          if (error.status === 200 || error.status === 201) {
+            this.userUpdateSubject.next(new userMsg(true, null));
+          } else {
+            const msg = this.errorHandler(error);
+            this.userUpdateSubject.next(new userMsg(false, msg));
+          }
+        }
+      );
+  }
+
   updatePasswordToServer(userId: string, oldPassword: string, newPassword: string){
 /*    this.tokenId = 'Bearer ' + localStorage.getItem('token');
     this.httpClient.put(urlUserUppassword + userId + '/' + oldPassword + '/' + newPassword, null,
