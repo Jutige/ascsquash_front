@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <table class="table">
+        <thead>
+        <tr class="row">
+          <th class="col-3 col-lg-2">Date</th>
+          <th class="col-5 col-sm-5 d-none d-sm-block">Titre</th>
+          <th class="col-3 col-sm-3">Auteur</th>
+          <th class="col-2">Détail</th>
+        </tr>
+        </thead>
+        <app-info-list-item *ngFor="let item of infoListResult | paginate: {itemsPerPage: 10, currentPage: page },
+                                    let index = index"
+                            [info]="item" [idInfo]="item.idInfo">
+        </app-info-list-item>
+
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <ngb-alert *ngIf="availableMessage" type="success" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
+  </div>
+  <br class="custom-scroll"/><br class="custom-scroll"/>
+  <a routerLink="create/createUser">
+    <button class="btn btn-success" *ngIf="currentUserType==2 || currentUserType==3">Créer</button>
+  </a>
+  <footer class="col-md-2 text-center d-flex justify-content-between custom-foot">
+
+    <pagination-controls  style="background-color: #F8F9FA;
+                                            margin-left: -45px;
+                                            padding-top: 10px;"
+                          class="d-flex justify-content-center"
+                          (pageChange)="page = $event"></pagination-controls>
+  </footer>
+
+</div>

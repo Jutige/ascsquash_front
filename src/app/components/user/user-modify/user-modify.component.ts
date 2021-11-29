@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {debounceTime, Subject, Subscription} from "rxjs";
 import {ActivatedRoute, ParamMap, Router} from "@angular/router";
-import {UserService} from "../../../../services/user-service";
-import {userMsg} from "../../../../models/user-msg";
-import {UserResult} from "../../../../models/user-result.model";
+import {UserService} from "../../../services/user-service";
+import {userMsg} from "../../../models/user-msg";
+import {UserResult} from "../../../models/user-result.model";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {UserCreate} from "../../../../models/user-create.model";
+import {UserCreate} from "../../../models/user-create.model";
 
 @Component({
   selector: 'app-user-modify',

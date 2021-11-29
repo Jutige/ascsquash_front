@@ -4,11 +4,11 @@
             <table class="table">
                 <thead>
                     <tr class="row">
-                       <th class="col-1 col-lg-1">Id ASC</th>
-                        <th class="col-2 col-sm-2 d-none d-sm-block">prénom</th>
-                        <th class="col-3 col-sm-3">nom</th>
-                        <th class="col-3 d-none d-lg-block">Mail</th>
-                        <th class="col-3">Autorisation</th>
+                      <th class="col-1 col-lg-1">Id ASC</th>
+                      <th class="col-2 col-sm-2 d-none d-sm-block">prénom</th>
+                      <th class="col-3 col-sm-3">nom</th>
+                      <th class="col-3 d-none d-lg-block">Mail</th>
+                      <th class="col-3">Autorisation</th>
                     </tr>
                 </thead>
                 <app-user-list-item *ngFor="let item of userListResult | paginate: {itemsPerPage: 10, currentPage: page },

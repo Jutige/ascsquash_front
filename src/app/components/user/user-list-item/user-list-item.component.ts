@@ -15,6 +15,7 @@ export class UserListItemComponent implements OnInit {
 
   @Input() user:UserResult;
   @Input() idUser: string;
+
 //  roleShow = new Array<string>();
   roleShow = 'Restreint';
   currentUserType = 0;

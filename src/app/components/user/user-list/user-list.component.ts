@@ -55,9 +55,7 @@ export class UserListComponent implements OnInit, OnDestroy {
                   console.log(this.userListResult);
               }
           );
- //     } else {
           console.log('liste en cours', this.userService.getUsers());
-  //    }
       this.errorGetSubscription = this.technicalService.getErrorSubject.subscribe(
             (response: any) => {
                 this.emitAlertAndRouting('Impossible de récupérer la liste des utilisateurs, code erreur : ', response);

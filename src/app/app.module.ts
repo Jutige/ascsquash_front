@@ -15,16 +15,21 @@ import {RouterModule, Routes} from "@angular/router";
 import {UserAccountComponent} from "./components/user/user-account/user-account.component";
 import {UserListComponent} from "./components/user/user-list/user-list.component";
 import {UserListItemComponent} from "./components/user/user-list-item/user-list-item.component";
-import { InfoListComponent } from './components/info/info-list/info-list/info-list.component';
-import { InfoListItemComponent } from './components/info/info-list-item/info-list-item/info-list-item.component';
-import {InfoServiceService} from "./services/info-service.service";
+import { InfoListComponent } from './components/info/info-list/info-list.component';
+import { InfoListItemComponent } from './components/info/info-list-item/info-list-item.component';
+import {InfoService} from "./services/info-service";
 import { UserDetailComponent } from './components/user/user-detail/user-detail/user-detail.component';
 import { UserCreateComponent } from './components/user/user-create/user-create/user-create.component';
-import { UserModifyComponent } from './components/user/user-modify/user-modify/user-modify.component';
+import { UserModifyComponent } from './components/user/user-modify/user-modify.component';
+import { InfoDetailComponent } from './components/info/info-detail/info-detail.component';
+import { InfoModifyComponent } from './components/info/info-modify/info-modify.component';
+import { InfoCreateComponent } from './components/info/info-create/info-create.component';
 
 const appRoutes: Routes = [
   {path: 'auth', component: AuthentComponent},
   {path: 'infos', component: InfoListComponent},
+  {path: 'infos/:idInfo', component: InfoDetailComponent},
+  {path: 'infos/modify/:idInfo', component: InfoModifyComponent},
   {path: 'users', component: UserListComponent},
   {path: 'users/:idUser', component: UserDetailComponent},
   {path: 'users/create/createUser', component: UserCreateComponent},
@@ -44,7 +49,10 @@ const appRoutes: Routes = [
     InfoListItemComponent,
     UserDetailComponent,
     UserCreateComponent,
-    UserModifyComponent
+    UserModifyComponent,
+    InfoDetailComponent,
+    InfoModifyComponent,
+    InfoCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +66,7 @@ const appRoutes: Routes = [
   ],
   providers: [AuthentGuardService,UserService,
               UserService,
-    InfoServiceService
+    InfoService
   ],
   bootstrap: [AppComponent]
 })

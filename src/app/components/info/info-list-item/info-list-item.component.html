@@ -1,0 +1,18 @@
+<div class="col-12">
+  <tr class="row stretched">
+    <td class="col-3 col-lg-2">{{dateCreate|date:'short'}}</td>
+    <td class="col-5 col-sm-5 d-none d-sm-block">{{info.title}}</td>
+    <td class="col-3 col-sm-3 custom-td">{{info.idUser}}</td>
+    <td class="col-2 commentAction"><button *ngIf="info.body" class="btn btn-secondary btn-sm"
+                                            (click)="this.displayComment = ! this.displayComment">...</button></td>
+
+  </tr>
+
+  <tr class="row streched" *ngIf="displayComment">
+    <td class="col-12 selectComment">{{info.body}}</td>
+    <div class="col-md-6 text-center">
+      <button *ngIf="currentUserType===2" class="btn btn-success mx-2 mx-sm-3" (click)="updateInfo()" >Modifier</button>
+      <button *ngIf="currentUserType===2" class="btn btn-danger" (click)="deleteInfo()">Supprimer</button>
+    </div>
+  </tr>
+</div>

@@ -32,10 +32,11 @@ export class UserDetailComponent implements OnInit, OnDestroy {
   successMessage: string = '';
   availableMessage:boolean = false;
   typeMessage = 'success';
+  private successSubscription: Subscription;
 
   currentUserType = 0;
 
-  private successSubscription: Subscription;
+
   private userDeleteSubscription: Subscription;
   private paramRouteMapSubscription: Subscription;
 
