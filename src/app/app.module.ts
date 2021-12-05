@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { NgxEditorModule } from 'ngx-editor';
 import { BrowserModule } from '@angular/platform-browser';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './app-routing.module';
@@ -10,7 +11,7 @@ import {NgxPaginationModule} from "ngx-pagination";
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {DialogModalComponent} from "./components/share/dialog-modal/dialog-modal.component";
 import {AuthentComponent} from "./components/authent/authent.component";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RouterModule, Routes} from "@angular/router";
 import {UserAccountComponent} from "./components/user/user-account/user-account.component";
 import {UserListComponent} from "./components/user/user-list/user-list.component";
@@ -24,10 +25,12 @@ import { UserModifyComponent } from './components/user/user-modify/user-modify.c
 import { InfoDetailComponent } from './components/info/info-detail/info-detail.component';
 import { InfoModifyComponent } from './components/info/info-modify/info-modify.component';
 import { InfoCreateComponent } from './components/info/info-create/info-create.component';
+import {HttpErrorInterceptor} from "./inteceptor/HttpErrorInterceptor";
 
 const appRoutes: Routes = [
   {path: 'auth', component: AuthentComponent},
   {path: 'infos', component: InfoListComponent},
+  {path: 'infos/create/createInfo', component: InfoCreateComponent},
   {path: 'infos/:idInfo', component: InfoDetailComponent},
   {path: 'infos/modify/:idInfo', component: InfoModifyComponent},
   {path: 'users', component: UserListComponent},
@@ -62,11 +65,12 @@ const appRoutes: Routes = [
     HttpClientModule,
     AppRoutingModule,
     RouterModule.forRoot(appRoutes),
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxEditorModule
   ],
   providers: [AuthentGuardService,UserService,
-              UserService,
-    InfoService
+    InfoService,
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi:true},
   ],
   bootstrap: [AppComponent]
 })

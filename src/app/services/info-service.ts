@@ -25,6 +25,8 @@ export class InfoService {
   public infoDeleteErrorSubject = new Subject<Number>();
   public infoCreateSubject = new Subject<InfoResult>();
   public infoCreateErrorSubject = new Subject<Number>();
+  public infoUpdateSubject = new Subject<String>();
+  public infoUpdateErrorSubject = new Subject<Number>();
 //  public infoGetListSubject = new Subject();
   private tokenId = '';
 
@@ -62,6 +64,27 @@ export class InfoService {
         }
       )
   }
+
+  updateInfoToServer(infoCreate: Info){
+    this.tokenId = 'Bearer ' + localStorage.getItem('token');
+    this.httpClient.post(urlInfoUpdate, infoCreate,
+      {headers: new HttpHeaders().set('Authorization', this.tokenId), withCredentials: true})
+      .subscribe(
+        (response: any) => {
+          console.log('info.service - updateInfoToServer -> response', response);
+          this.infoUpdateSubject.next(response.body);
+        },
+        (error : HttpErrorResponse) => {
+          if (error.status == 200){
+            this.infoUpdateSubject.next('mise à jour effectuée');
+          }
+          console.log('error appel info.service - updateInfosFromServer ',error);
+          const errorMsg = 'Erreur appel server, code : ' + error.status;
+          this.infoUpdateErrorSubject.next(error.status);
+        }
+      )
+  }
+
   deleteInfoToserver(idInfo: bigint){
     this.tokenId = 'Bearer ' + localStorage.getItem('token');
     this.httpClient.delete(urlInfoDelete+idInfo,

@@ -29,6 +29,8 @@ export class InfoListItemComponent implements OnInit {
   typeMessage = 'success';
   private successSubscription: Subscription;
 
+  infoToPrint = '';
+
   constructor(private userService: UserService,
               private infoService: InfoService,
               private router: Router) { }
@@ -37,6 +39,7 @@ export class InfoListItemComponent implements OnInit {
     this.currentUserType = this.userService.getCurrentRole();
     this.dateCreate = new Date(this.info.creationDate);
     this.idInfoString = String(this.idInfo);
+    this.infoToPrint = this.info.body//.replace(/\n/g, '<br />\n');
   }
 
   updateInfo(){

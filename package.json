@@ -23,6 +23,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "bootstrap": "^5.1.3",
+    "ngx-editor": "^12.0.0",
     "ngx-pagination": "^5.1.1",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

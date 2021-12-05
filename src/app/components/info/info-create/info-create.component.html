@@ -1,1 +1,49 @@
-<p>info-create works!</p>
+<form [formGroup]="formCreateInfo">
+  <div class="container">
+    <p><br/><strong>Création d'un message d'information</strong></p>
+    <div class="my-2 formGroup row">
+      <label class="col-6 col-sm-3" for="titleInfo">Titre :</label>
+      <div class="col-6 col-sm-4">
+        <input type="text" id="titleInfo" class="form-control" formControlName="titleInfo" >
+      </div>
+    </div>
+    <div class="my-2 formGroup row">
+      <label class="col-6 col-sm-3" for="bodyInfo">Corps du message :</label>
+      <div class="col-6 col-sm-4">
+  <!--      <textarea class="form-control rounded-0" id="bodyInfo" rows="10" formControlName="bodyInfo"></textarea>-->
+        <div class="NgxEditor__Wrapper">
+          <ngx-editor-menu [editor]="editor"> </ngx-editor-menu>
+          <ngx-editor
+            [editor]="editor"
+            [disabled]="false"
+            [placeholder]="'Type here...'"
+            formControlName="bodyInfo"
+            id="bodyInfo"
+          ></ngx-editor>
+        </div>
+      </div>
+    </div>
+    <div class="my-2 formGroup row">
+      <label class="col-6 col-sm-3" for="notifyInfo">Notification mail :</label>
+      <div class="col-6 col-sm-4">
+        <div class="form-check form-check-inline" *ngFor="let item of notification, let index = index">
+          <label class="form-check-label">{{item.name}}</label>
+          <input type="radio" class="form-check-input" id="notifyInfo" [value]="item.value" formControlName="notifyInfo"
+                 [checked]="item.checked" (change)="verifyChange($event)">
+        </div>
+      </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="col-md-6 text-center">
+      <button class="btn btn-success mx-3" [disabled]="formCreateInfo.invalid" (click)="createInfo()">Créer</button>
+      <!-- <button class="btn btn-danger" (click)="desactiveChangePassword()">Annuler</button>-->
+      <!--<button class="btn btn-success mr-3" (click)="activeChangePassword()">Changer mot de passe</button>-->
+      <button class="btn btn-danger" [routerLink]="['/infos']">Retour</button>
+    </div>
+    <br/>
+    <div class="col-md-6">
+      <ngb-alert *ngIf="availableMessage" [type]="typeMessage" (close)="successMessage = ''">{{ successMessage }}</ngb-alert>
+    </div>
+  </div>
+</form>
